@@ -38,4 +38,13 @@ Rails.application.configure do
 
   # Raises error for missing translations
   # config.action_view.raise_on_missing_translations = true
+  config.paperclip_defaults = {
+  :storage => :s3,
+  :s3_host_name => 's3-ap-southeast-1.amazonaws.com',
+  :s3_credentials => {
+    :bucket => Rails.application.secrets.aws_s3_bucket,
+    :access_key_id => Rails.application.secrets.aws_s3_access_key_id,
+    :secret_access_key => Rails.application.secrets.aws_s3_secret_access_key
+    }
+  }
 end
