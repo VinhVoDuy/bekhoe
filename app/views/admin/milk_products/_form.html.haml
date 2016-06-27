@@ -1,0 +1,49 @@
+= flash_messages
+= form_for [:admin, @product] do |form|
+  .container
+    .row.form-group
+      %label{for: :name} Tên Sản Phẩm:
+      = form.text_field :name, class: 'form-control'
+    .row.form-group
+      %label{for: :milk_brand_id} Thương Hiệu:
+      = form.select :milk_brand_id, MilkBrand.pluck(:name, :id), {include_blank: false}, class: 'form-control'
+    .row.form-group
+      %label{for: :price} Giá:
+      = form.text_field :price, class: 'form-control'
+    .row.form-group
+      %label{for: :milk_extra_attributes} Đặc Điểm Sản Phẩm:
+      = form.fields_for :milk_extra_attributes do |attribute|
+        = render 'milk_extra_attribute_fields', f: attribute
+      .links
+        = link_to_add_association '+', form, :milk_extra_attributes, class: 'btn btn-sm btn-primary'
+
+    .row.form-group
+      %label{for: :milk_attributes} Đặc Tính Sản Phẩm:
+      = form.fields_for :milk_attributes do |attribute|
+        = render 'milk_attribute_fields', f: attribute
+      .links
+        = link_to_add_association '+', form, :milk_attributes, class: 'btn btn-sm btn-primary'
+
+
+    .btn.btn-info#btn-edit-images Show Images
+    .row.form-group#edit-images-group.hidden
+      %label{for: :milk_product_images} Images
+      = form.fields_for :milk_product_images do |product_image|
+        = render 'milk_product_image_fields', f: product_image
+      .links
+        = link_to_add_association '+', form, :milk_product_images, class: 'btn btn-sm btn-primary'
+    .text-center
+      = form.submit (@product.new_record? ? 'Create' : 'Update'), class: 'btn btn-success edit-product-btn btn-large'
+
+:javascript
+  $('#btn-edit-images').click(show_and_hide_images_group);
+
+  function show_and_hide_images_group(){
+    if(($('#edit-images-group').hasClass('hidden'))){
+      $('#edit-images-group').removeClass('hidden');
+      $('#btn-edit-images').html('Hide Images');
+    } else {
+      $('#edit-images-group').addClass('hidden');
+      $('#btn-edit-images').html('Show Images');
+    }
+  }

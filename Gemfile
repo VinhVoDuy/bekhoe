@@ -6,6 +6,7 @@ gem 'rails', '4.2.5'
 # Use postgresql as the database for Active Record
 gem 'pg', '~> 0.15'
 # Use SCSS for stylesheets
+gem 'bootstrap-sass', '~> 3.3.6'
 gem 'sass-rails', '~> 5.0'
 # Use Uglifier as compressor for JavaScript assets
 gem 'uglifier', '>= 1.3.0'
@@ -29,6 +30,10 @@ gem 'awesome_print'
 gem 'paperclip'
 gem 'aws-sdk', '< 2.0'
 
+gem 'devise'
+gem 'jquery-datatables-rails', '~> 3.3.0'
+gem 'haml', '~> 4.0.5'
+gem "cocoon"
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 

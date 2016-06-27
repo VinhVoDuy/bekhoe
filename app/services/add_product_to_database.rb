@@ -23,7 +23,7 @@ class AddProductToDatabase
   end
 
   def process_images
-    @json_data["img"].map do |src|
+    @json_data["images"].map do |src|
       { image: src }
     end
   end

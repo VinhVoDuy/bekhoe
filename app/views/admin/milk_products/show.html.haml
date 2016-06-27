@@ -1,0 +1,50 @@
+%h1.text-center #{@product.name}
+%br
+.container-fluid
+  .row
+    .title.col-sm-1.text-uppercase 
+      %strong Thông Tin Sản Phẩm:
+    .detail.text-justify.col-sm-11
+      = simple_format(@product.detail)
+  = link_to 'Chỉnh sửa thông tin sản phẩm', edit_detail_admin_milk_product_path(@product), class: 'btn btn-primary edit-product-btn'
+  %hr
+  .row
+    .title.col-sm-1.text-uppercase 
+      %strong Đặc Tính Sản Phẩm:
+    .detail.text-justify.col-sm-11
+      %ul
+        - @product.milk_attributes.each do |attribute|
+          %li #{attribute.value}
+  %hr
+  .row
+    .title.col-sm-1.text-uppercase 
+      %strong Đặc Điểm Sản Phẩm:
+    .detail.text-justify.col-sm-11
+      - @product.milk_extra_attributes.each do |extra_attribute|
+        .col-sm-12
+          .col-sm-2 #{extra_attribute.name}
+          .col-sm-10 #{extra_attribute.value}
+  %hr
+  .row
+    .title.col-sm-1.text-uppercase 
+      %strong Thương Hiệu:
+    .detail.text-justify.col-sm-11
+      %h4 #{@product.milk_brand.name}
+  %hr
+  .row
+    .title.col-sm-1.text-uppercase 
+      %strong Giá:
+    .detail.text-justify.col-sm-11
+      %strong.lead #{to_currency(@product.price)}
+      %span (#{@product.last_price_change.try(:to_formatted_s,:long)})
+  %hr
+  .row
+    .title.col-sm-1.text-uppercase 
+      %strong Hình Ảnh:
+    .detail.text-justify.col-sm-11
+      - @product.milk_product_images.each do |product_image|
+        = link_to product_image.image.url, target: "_blank" do
+          %span
+            %img{src: product_image.image.url(:medium), size: "300x300"}
+.text-center
+  = link_to 'Chỉnh sửa chung', edit_admin_milk_product_path(@product), class: 'btn btn-primary edit-product-btn'

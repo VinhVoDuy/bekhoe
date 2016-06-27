@@ -1,0 +1,9 @@
+%h1.text-center #{@product.id}. #{@product.name}
+%br
+.container-fluid
+  = form_for [:admin, @product] do |form|
+    %label{for: :detail} Thông Tin Sản Phẩm:
+    = form.text_area :detail, class: 'form-control', rows: 50
+    %br
+    .text-center.edit-product-btn
+      = form.submit 'Update', class: 'btn btn-primary'

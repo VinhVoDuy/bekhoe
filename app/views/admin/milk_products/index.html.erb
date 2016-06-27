@@ -1,0 +1,94 @@
+<h1 class="text-center">Products</h1>
+<div class="container">
+  <%= render 'filters' %>
+  <br/>
+  <table id="products" class="table-striped table-bordered">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Brand</th>
+        <th>Price</th>
+        <th>SKU</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @products.each do |product| %>
+        <tr>
+          <td><%=product.name%></td>
+          <td><%=product.milk_brand.name%></td>
+          <td class="price"><%=to_currency(product.price)%></td>
+          <td><%=product.bibomart_sku%></td>
+          <td class= 'text-center'>
+            <%= link_to edit_admin_milk_product_path(product), class: 'btn btn-primary' do %>
+              <span class="glyphicon glyphicon-edit"></span>
+            <% end %>
+
+            <%= link_to admin_milk_product_path(product), class: 'btn btn-success' do %>
+              <span class="glyphicon glyphicon-eye-open"></span>
+            <% end %>
+
+            <%= link_to edit_detail_admin_milk_product_path(product), class: 'btn btn-success' do %>
+              <span class="glyphicon glyphicon-list-alt"></span>
+            <% end %>
+
+            <% if product.published %>
+              <%= link_to change_status_admin_milk_product_path(product), method: :put, remote: true, class: 'btn btn-info' do %>
+                <span class="glyphicon glyphicon-ok"></span>
+              <% end %>
+            <% else %>
+              <%= link_to change_status_admin_milk_product_path(product), method: :put, remote: true, class: 'btn btn-danger' do %>
+                <span class="glyphicon glyphicon-remove"></span>
+              <% end %>
+            <% end %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
+<script>
+$.fn.dataTable.ext.search.push(
+    function( settings, data, dataIndex ) {
+        var min = $('#min').val() * 1;
+        var max = $('#max').val() * 1;
+        var price = parseFloat( data[2] ) || 0; // use data for the price column
+ 
+        if ( ( min == '' && max == '' ) ||
+             ( min == '' && price <= max ) ||
+             ( min <= price && '' == max ) ||
+             ( min <= price && price <= max ) )
+        {
+            return true;
+        }
+        return false;
+    }
+);
+
+$(document).ready(function() {
+  var table = $('#products').DataTable(
+      {
+        "pageLength": 50
+      }
+      );
+
+
+  $('#min, #max').keyup(function() {
+    var new_val = addThousandsSeparator($(this).val().replace(/\./, ''));
+    if (new_val != $(this).val()) {
+      $(this).val(new_val);
+    }
+
+    table.draw();
+  });
+
+} );
+
+function addThousandsSeparator(x) {
+    //remove commas
+    retVal = x ? parseFloat(x.replace(/,/g, '')) : 0;
+
+    //apply formatting
+    return retVal.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+}
+</script>

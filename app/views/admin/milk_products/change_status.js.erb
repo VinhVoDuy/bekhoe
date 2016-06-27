@@ -1,0 +1,8 @@
+var url = '<%=change_status_admin_milk_product_path(@product)%>';
+<% if @product.published %>
+  $('a[href="' + url + '"]').attr('class', 'btn btn-info');
+  $('a[href="' + url + '"]' + ' span').attr('class', 'glyphicon glyphicon-ok');
+<% else %>
+  $('a[href="' + url + '"]').attr('class', 'btn btn-danger');
+  $('a[href="' + url + '"]' + ' span').attr('class', 'glyphicon glyphicon-remove');
+<% end %>

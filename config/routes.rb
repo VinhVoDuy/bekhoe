@@ -1,4 +1,12 @@
 Rails.application.routes.draw do
+  namespace :admin do
+    root 'milk_products#index'
+    resources :milk_products do
+      get :edit_detail, on: :member
+      put :change_status, on: :member
+    end
+  end
+  devise_for :admin_users, only: :sessions
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
